@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title%}
+        Work Experiences | {{ name }} | IITG Faculty Portal
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' username %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'experiences' username %}">Experiences</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'projects' username %}">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'publications' username %}">Publications</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'recognitions' username %}">Recognitions</a>
+      </li>
+    </ul>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% for experience in experiences %}
+                <div class="card">
+                    <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            Job Title
+                        </div>
+                        <div class="col">
+                        {{ experience.job_title }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Organisation
+                        </div>
+                        <div class="col">
+                        {{ experience.organisation }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Start Year
+                        </div>
+                        <div class="col">
+                        {{ experience.start_year }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            End Year
+                        </div>
+                        <div class="col">
+                        {{ experience.end_year }}
+                        </div>
+                    </div>
+                    <br>
+                    {% if editable %}
+                    <form method="post" action="{% url 'experiencedelete' username=username %}" style="text-align: right">
+                        {% csrf_token %}
+                        <input name="experienceid" value="{{ experience.id }}" hidden>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+                </div><br>
+                {% endfor %}
+                {% if editable %}
+                <div class="text-center">
+                    <a href="{% url 'experienceadd' username=username %}">
+                        <button class="btn btn-primary">Add Work Experience</button>
+                    </a>
+                </div>
+                <br>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+{% endblock %}

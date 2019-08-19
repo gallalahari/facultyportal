@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title%}
+    Log In | IITG Faculty Portal
+{% endblock %}
+
+{% block mainbody %}
+    {% load static %}
+    <h1 style="text-align:center"><img src="{% static 'images/iitg_logo.svg' %}" width="64px" height="64px" class="img-fluid"> IITG Faculty Portal Log In</h1>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+    <form method="post" action="{% url 'login' %}" class="form-control">
+{% if form.errors %}
+    <div class="container border-danger">
+        Your username and password didn't match. Please try again.
+    </div>
+{% endif %}
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="id_username">Username</label>
+            <input type="text" class="form-control" placeholder="Enter username" name="username" id="id_username">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="id_password">Password</label>
+            <input type="password" class="form-control" placeholder="Enter password" name="password" id="id_password">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col text-center">
+            <button type="submit" class="btn btn-outline-primary">Login</button>
+        </div>
+    </div>
+    <input type="hidden" name="next" value="/" />
+    </form>
+    <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+{# Assumes you setup the password_reset view in your URLconf #}
+
+{% endblock %}
+

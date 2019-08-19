@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title%}
+        Recognitions | {{ name }} | IITG Faculty Portal
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' username %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'experiences' username %}">Experiences</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'projects' username %}">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'publications' username %}">Publications</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'recognitions' username %}">Recognitions</a>
+      </li>
+    </ul>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% for recognition in recognitions %}
+                <div class="card">
+                    <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            Title
+                        </div>
+                        <div class="col">
+                        {{ recognition.title }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Description
+                        </div>
+                        <div class="col">
+                        {{ recognition.description }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Given By
+                        </div>
+                        <div class="col">
+                        {{ recognition.given_by }}
+                        </div>
+                    </div>
+                    <br>
+                    {% if editable %}
+                    <form method="post" action="{% url 'recognitiondelete' username=username %}" style="text-align: right">
+                        {% csrf_token %}
+                        <input name="recognitionid" value="{{ recognition.id }}" hidden>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+                </div><br>
+                {% endfor %}
+                {% if editable %}
+                <div class="text-center">
+                    <a href="{% url 'recognitionadd' username=username %}">
+                        <button class="btn btn-primary">Add Recognition</button>
+                    </a>
+                </div>
+                <br>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+{% endblock %}
